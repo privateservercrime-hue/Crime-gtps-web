@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🔥 CRIME GTPS — Official</title>
+
+<!-- Favicon (opsional kalau kamu sudah punya) -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<style>
+  :root{
+    --red:#ff1e1e; --blue:#00caff; --ink:#0a0a0f; --card:#101016; --muted:#bdbdbd;
+    --line:#23232e; --text:#f5f7fb;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--text); background:#000;
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    overflow-x:hidden;
+    /* background gradient bergerak */
+    background: linear-gradient(-45deg,#000,#0c0c24,#1b0015,#00141b);
+    background-size: 400% 400%;
+    animation: bgMove 14s ease infinite;
+  }
+  @keyframes bgMove{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+  /* NAVBAR */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(8px);
+    background: rgba(10,10,15,.7);
+    border-bottom:1px solid #1f1f28;
+  }
+  .nav-inner{
+    max-width:1100px; margin:auto; display:flex; align-items:center; gap:10px;
+    padding:10px 14px;
+  }
+  .brand{
+    font-weight:800; letter-spacing:.5px; margin-right:auto;
+    background: linear-gradient(90deg,var(--red),#fff,var(--blue));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow: 0 0 18px rgba(255,30,30,.55), 0 0 28px rgba(0,202,255,.35);
+  }
+  .tabs{display:flex; flex-wrap:wrap; gap:8px}
+  .tab{
+    color:var(--text); text-decoration:none; padding:9px 12px; border-radius:12px;
+    background:#141420; border:1px solid var(--line);
+    font-weight:600; font-size:14px;
+    transition:.18s ease;
+  }
+  .tab:hover{ transform:translateY(-1px); box-shadow:0 0 18px rgba(255,30,30,.3) inset; border-color:#2b2b38 }
+  .tab.active{ background:#1c1c2c; border-color:#ff3d3d; box-shadow:0 0 22px rgba(255,0,0,.35) }
+
+  /* LAYOUT */
+  .wrap{ max-width:1100px; margin:22px auto; padding:0 14px 40px; }
+  .hero{
+    text-align:center; padding:28px 18px; border:1px solid var(--line);
+    border-radius:18px; background: radial-gradient(1000px 700px at -15% -30%, rgba(255,30,30,.22), transparent 40%),
+                                   radial-gradient(900px 600px at 115% 120%, rgba(0,202,255,.18), transparent 42%),
+                                   rgba(15,15,25,.7);
+    box-shadow: 0 0 24px rgba(255,30,30,.15);
+    animation: fadeUp .6s ease;
+  }
+  .hero h1{
+    margin:0 0 8px; font-size:32px;
+    background: linear-gradient(90deg,var(--red),#ffffff,var(--blue));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow: 0 0 20px rgba(255,0,0,.8), 0 0 34px rgba(0,191,255,.5);
+    animation: glowText 3s ease-in-out infinite alternate;
+  }
+  @keyframes glowText{
+    from{ text-shadow:0 0 10px rgba(255,0,0,.6),0 0 22px rgba(0,191,255,.25) }
+    to{   text-shadow:0 0 24px rgba(255,255,255,.85), 0 0 46px rgba(0,191,255,.5) }
+  }
+  .hero p{ margin:0; color:var(--muted) }
+
+  /* SECTION CARD */
+  .card{
+    margin-top:18px; padding:18px; border-radius:16px; border:1px solid var(--line);
+    background: linear-gradient(180deg, rgba(18,18,28,.9), rgba(10,10,18,.8));
+    box-shadow: 0 0 20px rgba(255,0,0,.12);
+    animation: fadeUp .5s ease;
+  }
+  .card h2{
+    margin:0 0 10px; font-size:20px; color:#e6f7ff; text-shadow:0 0 8px var(--red);
+    display:flex; align-items:center; gap:8px;
+  }
+  .grid{
+    display:grid; gap:12px;
+  }
+  @media (min-width:720px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+    text-decoration:none; color:var(--text); padding:12px 14px; border-radius:12px;
+    background:#161625; border:1px solid #2a2a38; font-weight:700;
+    transition:.18s ease; text-align:center;
+  }
+  .btn:hover{ background:#231a1f; border-color:#ff3d3d; box-shadow:0 0 18px rgba(255,0,0,.35); transform: translateY(-1px); }
+  .btn img{ width:22px; height:22px }
+
+  /* LISTS */
+  .list{ list-style:none; margin:0; padding:0 }
+  .list li{ padding:8px 0; border-bottom:1px dashed #2a2a38 }
+  .muted{ color:var(--muted) }
+  .center{ text-align:center }
+
+  /* PAGES (SPA) */
+  .page{ display:none; }
+  .page.active{ display:block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px) } to{ opacity:1; transform:translateY(0)} }
+
+  footer{
+    margin:40px auto 10px; padding:10px; text-align:center; color:#bdbdbd;
+    border-top:1px solid var(--line);
+    max-width:1100px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">🔥 CRIME GTPS</div>
+      <div class="tabs">
+        <a class="tab active" href="#home" data-route="home">Home</a>
+        <a class="tab" href="#rules" data-route="rules">Rules</a>
+        <a class="tab" href="#tutorial" data-route="tutorial">Tutorial</a>
+        <a class="tab" href="#price" data-route="price">Price List</a>
+        <a class="tab" href="#links" data-route="links">Links</a>
+        <a class="tab" href="#giveaway" data-route="giveaway">Giveaway</a>
+        <a class="tab" href="#contact" data-route="contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HOME -->
+    <section id="page-home" class="page active">
+      <div class="hero">
+        <h1>“Tempat Para Legend Dilahirkan — Dari Noob Jadi Bos, Dari Crime Jadi King!”</h1>
+        <p class="muted">Selamat datang di CRIME GTPS — komunitas solid, CRIME in The geng Ara Ara Kimochi.</p>
+      </div>
+
+      <div class="card">
+        <h2>📢 Join Komunitas</h2>
+        <div class="grid">
+          <a class="btn" href="https://chat.whatsapp.com/HT8lkwnem6RABB1MX8ASPw?mode=ac_t">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA"> Join WhatsApp
+          </a>
+          <a class="btn" href="https://discord.gg/XJm2jbqT">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Join Discord
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⚡ Highlights</h2>
+        <ul class="list">
+          <li>Event mingguan + giveaway rutin.</li>
+          <li>Price list jelas & update.</li>
+          <li>Host & tools siap pakai.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- RULES -->
+    <section id="page-rules" class="page">
+      <div class="card">
+        <h2>📜 Rules CRIME PS</h2>
+        <ul class="list">
+          <li>Hormati sesama pemain & admin. Toxic berlebihan = mute/ban.</li>
+          <li>Dilarang cheat/bug abuse/dupe. Pelanggaran berat = wipe/ban.</li>
+          <li>Jangan jual beli ilegal di luar jalur admin resmi.</li>
+          <li>Gunakan bahasa yang sopan di WA/Discord/ingame.</li>
+          <li>Admin berhak mengambil tindakan tanpa pemberitahuan jika mengganggu kenyamanan. 
+          Anda sopan Kami segan (kalo jomblo)</li>
+        </ul>
+        <p class="muted">Patuh aturan = Biar gak ngehina nama Bapak Kalo berantem.</p>
+      </div>
+    </section>
+
+    <!-- TUTORIAL -->
+    <section id="page-tutorial" class="page">
+      <div class="card">
+        <h2>🖥️ Tutorial Login PC (Ringkas)</h2>
+        <ol class="list" style="list-style:decimal; padding-left:18px">
+          <li>Download file: <a class="btn" style="display:inline-flex;width:auto;padding:6px 10px" href="https://www.mediafire.com/file/48fgiwbews4s73n/CRIME-PS.txt/file">CRIME-PS.txt</a></li>
+          <li>Buka file & ikuti konfigurasi host / ptunnel sesuai instruksi.</li>
+          <li>Jika pakai iOS config: <a class="btn" style="display:inline-flex;width:auto;padding:6px 10px" href="https://skyhosting.lol/iOS">iOS Config</a></li>
+          <li>Cek koneksi, lalu login ke game. Jika error, ulangi langkah & pastikan host aktif.</li>
+        </ol>
+        <p class="muted">Butuh bantuan? Tanyakan di WA/Discord — moderator siaga bantu.</p>
+      </div>
+    </section>
+
+    <!-- PRICE LIST -->
+    <section id="page-price" class="page">
+      <div class="card">
+        <h2>💠 Role Price List</h2>
+        <ul class="list">
+          <li>🛡️ Moderator (MOD) : Rp60K</li>
+          <li>⚔️ Super Moderator (SMOD) : Rp80K</li>
+          <li>👨‍💻 Developer (DEV) : Rp120K</li>
+          <li>🏆 Super Developer (SDEV) : Rp200K</li>
+          <li>✨ /CSN (Custom Name Command) : Rp100K</li>
+          <li>💸 /BUY (Buy Command) : Rp150K</li>
+          <li>👹 Cheater Role : Rp80K</li>
+          <li>🚀 Booster (BOST) : Rp100K</li>
+          <li>🔥 Super Booster (SBOST) : Rp130K</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🔥 Title Price List</h2>
+        <ul class="list">
+          <li>🔵 Blue Name (Max Level) : Rp20K</li>
+          <li>💎 G4G Title : Rp35K</li>
+          <li>⚕️ DOCTOR Title : Rp15K</li>
+          <li>🎓 MENTOR Title : Rp25K</li>
+          <li>👑 Legendary Title : Rp20K</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>⚔️ CITEM Price List</h2>
+        <ul class="list">
+          <li>🐍 The Serpent (Hammer) → 150 xGems</li>
+          <li>• Goku → 200 xGems / Rp200K</li>
+          <li>• Gojo → 200 xGems / Rp200K</li>
+          <li>• Sukuna → 250 xGems / Rp220K</li>
+          <li>• Sasuke → 150 xGems / Rp150K</li>
+          <li>• Naruto → 150 xGems / Rp150K</li>
+          <li>• CITEM Sword (Custom Legendary) → 500 xGems / Rp300K</li>
+        </ul>
+        <p class="center muted" style="margin-top:8px">💳 Via Dana — Chat 085123951287</p>
+      </div>
+    </section>
+
+    <!-- LINKS (HOST & TOOLS) -->
+    <section id="page-links" class="page">
+      <div class="card">
+        <h2>🌐 Host & Tools</h2>
+        <div class="grid">
+          <a class="btn" href="https://www.mediafire.com/file/48fgiwbews4s73n/CRIME-PS.txt/file">💾 CRIME-PS.txt</a>
+          <a class="btn" href="https://skyhosting.lol/ptunnel.txt">⚡ Power / Virtual Host</a>
+          <a class="btn" href="https://skyhosting.lol/iOS">📱 iOS Config</a>
+          <a class="btn" href="https://discord.gg/XJm2jbqT">🛠️ Bantuan di Discord</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>📢 Grup Resmi</h2>
+        <div class="grid">
+          <a class="btn" href="https://chat.whatsapp.com/HT8lkwnem6RABB1MX8ASPw?mode=ac_t">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA"> WhatsApp Group
+          </a>
+          <a class="btn" href="https://discord.gg/XJm2jbqT">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord Server
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GIVEAWAY -->
+    <section id="page-giveaway" class="page">
+      <div class="card">
+        <h2>🎁 Giveaway Setiap Sabtu <span class="muted" style="font-size:13px">FREE ENTRY</span></h2>
+        <ul class="list">
+          <li>Hadiah: Role/Title/CITEM atau xGems spesial.</li>
+          <li>Syarat: Gabung WA/Discord & aktif (larangan spam).</li>
+          <li>Pengumuman: WA & Discord tiap Sabtu malam.</li>
+        </ul>
+        <div class="grid" style="margin-top:10px">
+          <a class="btn" href="https://discord.gg/XJm2jbqT">🎉 Ikut Giveaway di Discord</a>
+          <a class="btn" href="https://chat.whatsapp.com/HT8lkwnem6RABB1MX8ASPw?mode=ac_t">📣 Info di WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="page-contact" class="page">
+      <div class="card">
+        <h2>📞 Contact Admin</h2>
+        <div class="grid">
+          <a class="btn" href="https://wa.me/6285123951287">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA"> Chat Admin via WhatsApp
+          </a>
+          <a class="btn" href="https://discord.gg/XJm2jbqT">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> DM Admin di Discord
+          </a>
+        </div>
+        <p class="center muted" style="margin-top:8px">Fast response 09.00–22.00 WIB</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>© 2025 CRIME GTPS — All Rights Reserved</footer>
+
+<script>
+  // SPA Router sederhana berbasis hash
+  const routes = ["home","rules","tutorial","price","links","giveaway","contact"];
+  const pages = Object.fromEntries(routes.map(r => [r, document.getElementById("page-"+r)]));
+  const tabs  = [...document.querySelectorAll(".tab")];
+
+  function show(route){
+    if(!routes.includes(route)) route = "home";
+    for(const r of routes){ pages[r].classList.toggle("active", r===route); }
+    tabs.forEach(t => t.classList.toggle("active", t.dataset.route===route));
+  }
+  function handleHash(){ show(location.hash.replace("#","") || "home"); }
+  window.addEventListener("hashchange", handleHash);
+  window.addEventListener("load", handleHash);
+
+  // Smooth scroll top saat pindah halaman
+  tabs.forEach(t => t.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"})));
+</script>
+</body>
+</html>
